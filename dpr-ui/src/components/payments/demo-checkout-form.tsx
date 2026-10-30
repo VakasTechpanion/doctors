@@ -29,8 +29,16 @@ export function DemoCheckoutForm({ config }: { config: CheckoutConfig }) {
   const [loading, setLoading] = useState(false);
 
   const isAppointment = config.mode === 'appointment';
-  const subtotal = config.amountInr;
-  const platformFee = isAppointment ? calcPlatformFee(subtotal) : 0;
+
+  const subtotal =
+    config.mode === 'appointment'
+      ? config.feeInr
+      : config.amountInr;
+
+  const platformFee = isAppointment
+    ? calcPlatformFee(subtotal)
+    : 0;
+
   const total = subtotal;
 
   async function handlePay() {
@@ -71,11 +79,10 @@ export function DemoCheckoutForm({ config }: { config: CheckoutConfig }) {
               key={m}
               type="button"
               onClick={() => setMethod(m)}
-              className={`rounded-lg px-4 py-2 text-sm font-medium capitalize ${
-                method === m
-                  ? 'bg-teal-700 text-white'
-                  : 'border border-slate-200 text-slate-700 hover:bg-slate-50'
-              }`}
+              className={`rounded-lg px-4 py-2 text-sm font-medium capitalize ${method === m
+                ? 'bg-teal-700 text-white'
+                : 'border border-slate-200 text-slate-700 hover:bg-slate-50'
+                }`}
             >
               {m}
             </button>
